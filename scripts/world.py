@@ -40,6 +40,17 @@ class World:
         
         self.tiles[tile_pos]= tile_tuple
         
+    def as_set(self):
+        
+        se = set()
+        
+        for tile in self.tiles:
+            tx, ty = map(int, tile.split(":"))
+            tup = self.tiles[tile]
+            se.add((*tup, (tx,ty)))
+        return se
+            
+        
     def draw_world(self):
         
         world_surface = pygame.Surface((2400,2400)).convert_alpha()
@@ -62,7 +73,12 @@ class World:
             
             
         
-
-        
+if __name__ == '__main__':
+    
+    pygame.display.set_mode((0,0))
+    
+    wrl = World()
+    wrl.load('world.pcl')
+    print(wrl.as_set())
         
         

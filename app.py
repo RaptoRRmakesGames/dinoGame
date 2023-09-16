@@ -25,13 +25,15 @@ class Game:
         
     def _init_player(self):
         
-        self.player = Player((500,-50))
+        self.player = Player(self, (500,-50))
         
     def _init_world(self):
         from scripts.world import World
         self.world = World()
 
         self.world.load('world.pcl')
+        
+        self.world_set = self.world.as_set()
         
         self.world_surf = self.world.draw_world()
 

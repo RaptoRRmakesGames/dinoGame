@@ -4,7 +4,9 @@ from scripts.classes import PhysicsBody, Collider, InputController
 
 class Player:
     
-    def __init__(self, pos):
+    def __init__(self, game, pos):
+        
+        self.game = game
         
         self.image = pygame.Surface((24,30))#pygame.transform.scale(pygame.image.load('assets/images/DSC_0067 250χ250.JPG').convert(), (24,30))
         
@@ -61,6 +63,6 @@ class Player:
         self.ph.friction(dt)
         
     
-        self.cl.check_collide_world(tiles)
+        self.cl.check_collide_world(self.game.world_set)
         
         self.ph.move(dt)

@@ -84,56 +84,101 @@ class Collider:
         self.parent = parent
         self.on_ground = False
         
-    def check_collide_world(self, tiles : dict):
+    def check_collide_world(self, tiles):
         
         self.on_ground = False
         
         ph = self.parent.ph
         
         ptx, pty = ph.get_rect().x // 16, ph.get_rect().y // 16
-
         
-        for tile in tiles:
+        if isinstance(tiles, dict):
+
             
-            tx, ty = int(tile.split(':')[0]),int(tile.split(':')[1])
+            for tile in tiles:
+                
+                tx, ty = map(int, tile.split(":"))
+                
+                if abs(ptx - tx) + abs(pty - ty) < 10:
+                    
+                
+                    x, y = tx*16, ty *16
+                    
+                    tile_rect = pygame.Rect(x,y, 16,16)
+
+                    if tile_rect.colliderect(ph.get_rect().move(ph.dx, 0)):
+                        
+                        ph.dx = 0 
+                        
+                        if ph.velocity.x > 0:
+                            
+                            ph.get_rect().right = tile_rect.left
+                            
+                        if ph.velocity.x < 0:
+                            
+                            ph.get_rect().left = tile_rect.right
+                            
+                        
+                        ph.velocity.x = 0
+                    
+                    if tile_rect.colliderect(ph.get_rect().move(0, ph.dy)):
+                        
+                        ph.dy = 0 
+                        
+                        if ph.velocity.y > 0:
+                            self.on_ground = True
+                            self.parent.jumps = 2
+                            
+                            ph.get_rect().bottom = tile_rect.top
+                        if ph.velocity.y < 0:
+                            
+                            ph.get_rect().top = tile_rect.bottom
+                            
+                        
+                        ph.velocity.y = 0
+        elif isinstance(tiles, set):
             
-            if abs(ptx - tx) + abs(pty - ty) < 10:
+            for tile in tiles:
                 
-            
-                x, y = tx*16, ty *16
+                tx, ty = tile[2]
                 
-                tile_rect = pygame.Rect(x,y, 16,16)
+                if abs(ptx - tx) + abs(pty - ty) < 10:
+                    
                 
-                if tile_rect.colliderect(pygame.FRect(ph.get_rect().x  + ph.dx, ph.get_rect().y, ph.get_rect().width, ph.get_rect().height)):
+                    x, y = tx*16, ty *16
                     
-                    ph.dx = 0 
+                    tile_rect = pygame.Rect(x,y, 16,16)
+
+                    if tile_rect.colliderect(ph.get_rect().move(ph.dx, 0)):
+                        
+                        ph.dx = 0 
+                        
+                        if ph.velocity.x > 0:
+                            
+                            ph.get_rect().right = tile_rect.left
+                            
+                        if ph.velocity.x < 0:
+                            
+                            ph.get_rect().left = tile_rect.right
+                            
+                        
+                        ph.velocity.x = 0
                     
-                    if ph.velocity.x > 0:
+                    if tile_rect.colliderect(ph.get_rect().move(0, ph.dy)):
                         
-                        ph.get_rect().right = tile_rect.left
+                        ph.dy = 0 
                         
-                    if ph.velocity.x < 0:
+                        if ph.velocity.y > 0:
+                            self.on_ground = True
+                            self.parent.jumps = 2
+                            
+                            ph.get_rect().bottom = tile_rect.top
+                        if ph.velocity.y < 0:
+                            
+                            ph.get_rect().top = tile_rect.bottom
+                            
                         
-                        ph.get_rect().left = tile_rect.right
-                        
-                    
-                    ph.velocity.x = 0
-                
-                elif tile_rect.colliderect(pygame.FRect(ph.get_rect().x , ph.get_rect().y + ph.dy, ph.get_rect().width, ph.get_rect().height)):
-                    
-                    ph.dy = 0 
-                    
-                    if ph.velocity.y > 0:
-                        self.on_ground = True
-                        self.parent.jumps = 2
-                        
-                        ph.get_rect().bottom = tile_rect.top
-                    if ph.velocity.y < 0:
-                        
-                        ph.get_rect().top = tile_rect.bottom
-                        
-                    
-                    ph.velocity.y = 0
+                        ph.velocity.y = 0
                 
 class InputController:
     
