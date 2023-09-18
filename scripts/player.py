@@ -1,6 +1,6 @@
 import pygame
 
-from scripts.classes import PhysicsBody, Collider, InputController
+from scripts.classes import PhysicsBody, Collider, InputController, Animator
 
 class Player:
     
@@ -8,7 +8,15 @@ class Player:
         
         self.game = game
         
-        self.image = pygame.Surface((24,30))#pygame.transform.scale(pygame.image.load('assets/images/DSC_0067 250χ250.JPG').convert(), (24,30))
+        
+        self.anm = Animator()
+        
+        self.anm.create_all_anims('assets/images/player/', [150,150,150,150,150,150,150])
+        print(self.anm)
+        
+        self.anm.set_anim('idle')
+        
+        self.image = self.anm.get_image()
         
         img_rect = self.image.get_rect(topleft=pos)
         
@@ -33,9 +41,12 @@ class Player:
         
         render_rect = pygame.FRect(self.ph.get_pos()[0] - offset[0],self.ph.get_pos()[1] - offset[1], self.ph.get_rect().width,self.ph.get_rect().height )
          
-        pygame.draw.rect(display, (255,255,255), render_rect)
+        display.blit(self.anm.get_image(), render_rect)
+        # pygame.draw.rect(display, (255,255,255), render_rect)
         
     def update(self, tiles, dt=1):
+        
+        self.anm.update_anim()
         
         self.ph.update_gravity(dt)
         

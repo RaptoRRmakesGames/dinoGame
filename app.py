@@ -83,23 +83,19 @@ class Game:
         sys.exit()
         
     def update_camera(self, dt=1):
-        # calculate the camera's target
         
-
+        # calculate the camera's target
         target_x = self.player.ph.get_rect().centerx - self.screen.get_width() / 2
         target_y = self.player.ph.get_rect().centery- self.screen.get_height() / 2
             
         # move the camera
         self.camera_target[0] += ((target_x - self.camera_target[0]) / self.scroll_speed)  * dt
         self.camera_target[1] += ((target_y - self.camera_target[1]) / self.scroll_speed) * dt
-        
-
     
         # Apply the camera target position as the scroll position
-        
-        
         self.scroll[0] = round(self.camera_target[0])
         self.scroll[1] = round(self.camera_target[1])
+        
     
     def update(self):
         
