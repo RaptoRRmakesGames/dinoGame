@@ -11,7 +11,7 @@ class Player:
         
         self.anm = Animator()
         
-        self.anm.create_all_anims('assets/images/player/', [150,150,150,150,150,150,150])
+        self.anm.create_all_anims('assets/images/player/', [150,150,50,150,150,150,150])
         print(self.anm)
         
         self.anm.set_anim('idle')
@@ -46,6 +46,8 @@ class Player:
         
     def update(self, tiles, dt=1):
         
+        self.handle_animations()
+        
         self.anm.update_anim()
         
         self.ph.update_gravity(dt)
@@ -77,3 +79,6 @@ class Player:
         self.cl.check_collide_world(self.game.world_set)
         
         self.ph.move(dt)
+        
+    def handle_animations(self):
+        pass

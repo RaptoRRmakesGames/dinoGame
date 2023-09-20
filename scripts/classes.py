@@ -278,6 +278,10 @@ class Animator:
         self.animations[anim_name] = Animation(imgs)
         self.animations[anim_name].set_frame_time(frame_time)
         
+    def anim_done(self):
+        
+        return self.selected_anim.index == self.selected_anim.max_index 
+        
         
     def create_all_anims(self,folder_path, fr_times):
         
