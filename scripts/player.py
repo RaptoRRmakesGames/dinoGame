@@ -8,11 +8,9 @@ class Player:
         
         self.game = game
         
-        
         self.anm = Animator()
         
         self.anm.create_all_anims('assets/images/player/', [150,150,50,150,150,150,150])
-        print(self.anm)
         
         self.anm.set_anim('idle')
         

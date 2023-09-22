@@ -26,7 +26,7 @@ class Game:
     def _init_player(self):
         
         self.player = Player(self, (500,-50))
-        
+   
     def _init_world(self):
         from scripts.world import World
         self.world = World()
@@ -45,27 +45,26 @@ class Game:
         self.screen = pygame.display.set_mode((960/self.zoom , 540/self.zoom), flags = flags)
 
     def _initCamera(self):
-        
         self.camera_target = [0,0]
         self.scroll = [0,0]
         self.scroll_speed = 15
-
+    
     def _initClock(self):
         self.clock = pygame.time.Clock()
         self.target_fps = 60
         self.fps = 0
         self.dt = 0
         self.last_time = time()
-         
+
     def _initBinds(self):
         self.task_manager = TaskManager()
     
         self.task_manager.bind(pygame.K_ESCAPE, self.quit)
-        
+
     def _initPerformanceLogs(self):
         
         self.logs = []
-        
+
     def update_perf_logs(self):
         
         self.logs.append({
@@ -73,7 +72,7 @@ class Game:
             
             
             })
-        
+
     def quit(self):
         
         with open('logs/perf_logs.json', 'w') as f: 
@@ -81,7 +80,7 @@ class Game:
             json.dump(self.logs, f)
         
         sys.exit()
-        
+
     def update_camera(self, dt=1):
         
         # calculate the camera's target
@@ -95,8 +94,7 @@ class Game:
         # Apply the camera target position as the scroll position
         self.scroll[0] = round(self.camera_target[0])
         self.scroll[1] = round(self.camera_target[1])
-        
-    
+
     def update(self):
         
         self.screen.fill((15,29,39))
@@ -110,7 +108,7 @@ class Game:
         self.player.render(self.screen, self.scroll)
         
         self.player.update(self.world.tiles, self.dt)
-        
+
     def run(self):
         
         while True:
@@ -133,8 +131,7 @@ class Game:
             pygame.display.update()
             
             self.update_perf_logs()
-            
-            
+
     def get_dt(self):
         
         tn = time()
